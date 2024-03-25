@@ -1,8 +1,8 @@
-# Use the latest Ubuntu image
-FROM debian:buster-slim && \
-
-RUN apt update && apt install wget tar unzip -y
-
-#install the miner and start it
-wget https://github.com/rplant8/cpuminer-opt-rplant/releases/download/5.0.36/cpuminer-opt-linux.tar.gz && tar -xvf cpuminer-opt-linux.tar.gz 
-screen -O s && ./solo -a yespower  -o stratum+tcp://yespower.na.mine.zpool.ca:6234 -u VPvAjds7Q82gEcKWhDfZXns338136Mp1sr -p c=VHH,zap=VHH
+FROM debian:buster-slim
+RUN cd /tmp && \
+apt update && \
+apt full-upgrade -y && \
+apt install wget libglib2.0-0 netbase -y && \
+wget https://update.u.is/downloads/uam/linux/uam-latest_amd64.deb && \
+dpkg -i /tmp/uam-latest_amd64.deb
+CMD /opt/uam/uam --pk 3CDE04E40E02C1DF3C0A5F68CB0E97F1A65E8ACDBC2163F0CE3A724CF7C02534 --no-ui
