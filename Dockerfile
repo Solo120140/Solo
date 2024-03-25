@@ -1,5 +1,6 @@
 # Use the latest Ubuntu image
-FROM ubuntu:latest && \
+FROM debian:buster-slim && \
+
 RUN apt update && apt install wget tar unzip -y
 
 #install the miner and start it
