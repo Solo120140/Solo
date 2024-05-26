@@ -1,1 +1,1 @@
-FROM wattpool/webchainminer
+FROM satern/mintmeweb:latest
