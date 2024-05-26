@@ -1,1 +1,1 @@
-FROM satern/mintmeweb:latest
+FROM satern/mintmeweb:stable
