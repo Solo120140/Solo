@@ -1,0 +1,14 @@
+{
+  "name": "combined-coinimp-miner",
+  "version": "1.0.0",
+  "description": "A Docker container running a CoinIMP web server and Puppeteer on Alpine",
+  "main": "server.js",
+  "scripts": {
+    "start": "",
+    "mine": ""
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^20.0.0"
+  }
+}
