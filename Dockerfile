@@ -1,31 +1,47 @@
-# Use the base image for Jupyter notebooks
-FROM jupyter/base-notebook:latest
+### Base
+FROM node:20-alpine as base
+ENV NODE_ENV=some_env
 
-# Switch to root user to install Node.js
-USER root
+# Install necessary packages for Puppeteer
+# Installs latest Chromium (100) package.
+RUN apk add --no-cache \
+    udev \
+    ttf-freefont \
+    chromium
 
-# Install curl and Node.js 20
-RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-# Switch back to the notebook user
-USER ${NB_UID}
+USER username
+WORKDIR /your_work_dir
 
-# Create a directory for notebooks (optional, usually done in binder configuration)
-RUN mkdir -p /home/jovyan/work
+# Copy base dependencies describing
+# COPY ...
 
-# Set the working directory
-WORKDIR /home/jovyan/work
+RUN npm install
 
-# Copy any local content to the working directory (optional)
-# COPY . /home/jovyan/work
 
-# Expose port for Jupyter
-EXPOSE 8888
+### Builder
+FROM base as builder
 
-# Start Jupyter Notebook
-CMD ["start-notebook.sh"]
+RUN npm install 
+RUN npm run build
+
+
+### Runtime
+FROM node:20-alpine as runtime
+ENV NODE_ENV=some_env
+WORKDIR /your_work_dir
+
+# Install necessary packages for Puppeteer in runtime image
+RUN apk add --no-cache \
+    udev \
+    ttf-freefont \
+    chromium
+
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+
+# Copy runtime dependencies
+# COPY ...
+
+CMD ["npm", "run", "start:prod"]
